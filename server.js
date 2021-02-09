@@ -1,14 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const cors = require('cors')
 // create express app
 const app = express();
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
 
 // parse requests of content-type - application/json
-app.use(bodyParser.json())
+app.use(cors({
+    origin:'http://localhost:8080'
+}));
 
 // define a simple route
 app.get('/', (req, res) => {

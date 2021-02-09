@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const TaskSchema = mongoose.Schema({
-    task: String
+    content: String,
+    doneAt : Date
 }, {
     timestamps: true
 });

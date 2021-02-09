@@ -1,0 +1,47 @@
+html, body {
+  width : 100%;
+  height : 100%;
+  margin : 0;
+  padding: 0;
+}
+
+.tasks-root{
+  flex : 1;
+  max-width: 500px;
+  align-items: center;
+  justify-content: center;
+}
+
+.tasks-root > h1 {
+  text-align : center;
+  text-transform : uppercase;
+}
+
+.tasks-header {
+  display : flex;
+  justify-content: stretch;
+}
+
+.task-item > input[type="checkbox"],
+.tasks-header > input[type="checkbox"] {
+  flex-shrink: 1;
+  margin : 8px;
+}
+
+.task-item > input[type="text"],
+.task-item > .task-content, 
+.tasks-header > input[type="text"] {
+  flex-grow: 1;
+  width :auto;
+  border : none;
+  padding : 8px;
+  font-size: 18px;
+  font-weight: normal;
+  font-family: Roboto;
+}
+
+.tasks-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

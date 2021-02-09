@@ -3,7 +3,7 @@ const User = require('../models/user.model.js');
 // Create and Save a new User
 exports.create = (req, res) => {
     // Validate request
-    if(!req.body.content) {
+    if(!req.body) {
         return res.status(400).send({
             message: "User content can not be empty"
         });
@@ -12,7 +12,7 @@ exports.create = (req, res) => {
     // Create a user
     const user = new User({
         name: req.body.name || "Unamed User", 
-        userName: req.body.userName || "Unusernamed User"
+        userName: req.body.userName
     });
 
     // Save User in the database
