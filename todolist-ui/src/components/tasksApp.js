@@ -1,12 +1,12 @@
 import React from 'react'
-import tasksService from '../services/tasks.services';
 import {connect} from 'react-redux';
-
+import tasksActions from '../actions/tasks.actions';
+import TaskItem from './taskItem'
 const ENTER_KEY = 'Enter'
 
-@connect (({ tasks: { list }}) => ({tasks:list}))
-
-export default class App extends React.PureComponent {
+export default
+@connect (({ tasks: { list, loading }}) => ({tasks:list, loading}))
+class App extends React.PureComponent {
 
   state = {
     newTaskContent : "",
@@ -14,26 +14,20 @@ export default class App extends React.PureComponent {
   }
 
   componentDidMount(){
-    tasksService.listTasks()
-      .then(tasks => this.setState({tasks}))
-      .catch(console.error.bind(console))
+    const { dispatch } = this.props;
+    dispatch(tasksActions.listTasks());
   }
 
   handleSubmit = () => {
-    const { tasks, newTaskContent } = this.state;
-    tasksService.createTask(newTaskContent)
-    .then(task =>
-      this.setState({
-        tasks: [
-          ...tasks,
-          task
-        ],
-        newTaskContent: ""
-      }));
+    const { dispatch } = this.props;
+    const { newTaskContent } = this.state;
+    dispatch(tasksActions.createTask(newTaskContent));
+    this.setState({newTaskContent : ''})
   }
 
   render() {
-    const {tasks,newTaskContent} = this.state;
+    const { newTaskContent } = this.state;
+    const { tasks, loading } = this.props;
     return (
         <div className="tasks-root">
             <h1>Tasks</h1>
@@ -46,16 +40,14 @@ export default class App extends React.PureComponent {
               onKeyUp={({ key }) =>
                 key == ENTER_KEY && this.handleSubmit()}/>
             </div>
-            <ul className="tasks-list">
-              {tasks.map (task =>
-              <li key={`task._id`} className="task-item">
-                <input type="checkbox"></input>
-                <span className="task-content">
-                  {task.content}
-                </span>
-              </li>
-              )}
-            </ul>
+            {loading
+              ? <span>Loading...</span>
+              :<ul className="tasks-list">
+                {tasks.map (task =>
+                  <TaskItem key={`task_${task._id}`}  task = {task}/>
+                )}
+              </ul>
+            }
         </div>
     );
   }

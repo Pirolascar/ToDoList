@@ -2,7 +2,8 @@ const API_URL = "http://localhost:3000";
 
 export default {
     listTasks,
-    createTask
+    createTask,
+    deleteTask
 }
 
 function apiFetch(path, options){
@@ -24,5 +25,11 @@ function createTask(content){
         body: JSON.stringify({
             content
         })
+    });
+}
+
+function deleteTask(taskId){
+    return apiFetch(`/tasks/${taskId}`, {
+        method: 'DELETE'
     });
 }
